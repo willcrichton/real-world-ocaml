@@ -22,8 +22,10 @@ let head_item ?chapter_title () : Html.item =
     title [`Data page_title];
     link ~a:["rel","stylesheet"; "href","css/app.css"] [];
     link ~a:["rel","stylesheet"; "href","css/prism.css"] [];
+    link ~a:["rel","stylesheet"; "href","css/quiz.css"] [];
     script ~a:["src","js/min/modernizr-min.js"] [];
     script ~a:["src","js/prism.js"] [];
+    script ~a:["src","js/quiz.js"] [];
     script ~a:["src","//use.typekit.net/gfj8wez.js"] [];
     script [`Data "try{Typekit.load();}catch(e){}"];
   ]

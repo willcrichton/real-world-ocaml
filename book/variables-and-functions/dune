@@ -1,5 +1,5 @@
 (mdx
- (files README.md)
+ (files README.md quiz.json)
  (packages
   core
   mdx

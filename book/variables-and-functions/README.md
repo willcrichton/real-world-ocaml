@@ -153,6 +153,10 @@ values in OCaml, which we'll discuss in
 [Imperative Programming](imperative-programming.html#imperative-programming-1){data-type=xref},
 but there are no mutable variables.
 
+```quiz
+```
+{{#quiz quiz.json}}
+
 ::: {data-type=note}
 #### Why Don't Variables Vary?
 

@@ -1,0 +1,9 @@
+{
+  "questions": [
+    {
+      "type": "ShortAnswer",
+      "prompt": {"prompt": "What is the keyword used to define a variable in OCaml?"},
+      "answer": {"answer": "let"}
+    }
+  ]
+}

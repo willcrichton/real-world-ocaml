@@ -187,6 +187,26 @@ let get_output_infos = function
   | Latex -> pp_block_latex, pp_text_latex,  "-t latex --listings"
   | Markdown -> pp_block_md, pp_text_latex, "-t markdown"
 
+let parse_quiz (file : string) (t : string) : string = 
+  let rx = Re.compile (Re.Pcre.re "\\{\\{#quiz ([^}]*)\\}\\}") in
+   match Re.exec_opt rx t with 
+  | Some group ->
+    let rel_path = Re.Group.get group 1 in
+    let abs_path = Filename.concat "../../../book" (Filename.concat (Filename.dirname file) rel_path) in
+    let file = open_in abs_path in 
+    let contents = really_input_string file (in_channel_length file) in
+    close_in file ;
+    let escaped = String.fold_left (fun s c -> 
+      s ^ (match c with 
+      | '&' -> "&amp;" 
+      | '<' -> "&lt;"
+      | '>' -> "&gt;"
+      | '"' -> "&quot;"
+      | c -> String.of_char c)
+      ) "" contents in
+    Printf.sprintf {|<div class="quiz-placeholder" data-quiz-name="Foo" data-quiz-questions="%s"></div>|} escaped
+  | None -> t
+
 let run (`File file) (`Output output) output_type =
   let (pp_block, pp_text, out_args) = get_output_infos output_type in
   match Mdx.parse_file Normal file with
@@ -207,7 +227,8 @@ let run (`File file) (`Output output) output_type =
         | Mdx.Section s ->
           Fmt.pf ppf "%a%a" pp_text acc pp_section (boost_section s);
           []
-        | Text t        -> t::acc
+        | Text t        ->           
+          (parse_quiz file t)::acc
         | Block b ->
           Fmt.pf ppf "%a%a" pp_text acc pp_block b;
           []
